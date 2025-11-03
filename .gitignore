@@ -1,0 +1,25 @@
+# Ignore build output
+*.o
+*.exe
+*.out
+# an asterisk matches zero or more characters, so these lines ignore all matching file types, regardless of name
+# for MATLAB projects, you might want to add: `*.asv` and the folder where you store generated figures (e.g. `graphs/`)
+
+# Ignore build folders
+build/
+bin/
+# ignores any folder named "build" or "bin" anywhere in the repo, as well as their contents
+
+# Ignore IDE settings (Visual Studio, CLion, etc.)
+*.sln
+*.vcxproj*
+*.idea/
+*.vscode/
+
+# Ignore OS files
+.DS_Store
+Thumbs.db
+
+# Ignore logs and temporary files
+*.log
+*.tmp
