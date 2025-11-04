@@ -87,7 +87,7 @@ To set up your SSH keys:
     * You don't need a password, but it increases security. If you add one it keeps pushing and pulling locally secure, so no one can use the key without the password if they somehow gain access to your computer.
         * Adding one will make us go through a few additional steps later. ----- 
     * ed25519 is the -----
-2. Either open the `.pub` file you just created or run `cat <path-to-key>/.ssh/id_ed25519.pub` (or whatever you named your ssh key) so you can copy your public key.
+2. Either open the `.pub` file you just created or run `cat /path/to/.ssh/id_ed25519.pub` (or whatever you named your ssh key) so you can copy your public key.
 3. Go to [https://github.com/settings/keys](https://github.com/settings/keys) 
 4. Click the green `New SSH key` button. Title it whatever you'd like, and make sure "Authentication Key" is selected from the dropdown. Paste the SSH public key you copied and click `Add SSH Key`.
 5. Repeat step 4. with the same key but select "Signing Key" from the dropdown instead.
@@ -103,7 +103,9 @@ We'll cover what commits are later in Section [3.2](#22-commits), but for now, k
 
 To just get things up and running, we'll use the SSH key we just generated for commit signing. You can also use a GPG key instead, but it requires an additional download and some different steps. More information on GPG keys can be found [here](https://docs.github.com/en/authentication/managing-commit-signature-verification/signing-commits).
 
-1. 
+1. The first step is what we did in step 5 of section 2.2.1. 
+2. Run `git config --global gpg.format ssh`
+3. Run `git config --global user.signingkey /path/to/.ssh/key.pub`
 
 ## 2.4 Adding Git to PATH
 
