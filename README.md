@@ -106,6 +106,7 @@ To just get things up and running, we'll use the SSH key we just generated for c
 1. The first step is what we did in step 5 of section 2.2.1. 
 2. Run `git config --global gpg.format ssh`
 3. Run `git config --global user.signingkey /path/to/.ssh/key.pub`
+4. Run `git config --global commit.gpgsign true`
 
 ## 2.4 Adding Git to PATH
 
