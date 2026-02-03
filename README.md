@@ -7,16 +7,16 @@ An entry level reference for setting up and learning how to use GitHub for softw
 # Table of Contents
 
 * [1. Introduction](#1-introduction)
-    * [So What is GitHub?](#11-so-what-is-github)
-    * [What is Git?](#02-what-is-git)
-    * [Why Not Just Use GitHub Desktop?](#13-why-not-just-use-github-desktop)
+    * [1.1. So What is GitHub?](#11-so-what-is-github)
+    * [1.2. What is Git?](#12-what-is-git)
+    * [1.3. Why Not Just Use GitHub Desktop?](#13-why-not-just-use-github-desktop)
+    * [1.4. Visual Studio Code Setup](#14-visual-studio-code-setup)
 * [2. Getting Started With GitHub](#2-getting-started-with-github)
     * [Downloading Git](#21-downloading-git)
     * [Authentication (SSH & HTTPS)](#22-authentication)
     * [Signing Keys and Signing Commits](#23-signing-keys-and-signing-commits)
-    * [Adding Git to PATH](#24-adding-git-to-path)
-    * [Running Git Commands in the Terminal](#25-running-git-commands-in-the-terminal)
-    * [Visual Studio Code Setup](#26-visual-studio-code-setup)
+    * [Adding Git to PATH](#241-adding-git-to-path)
+    * [Running Git Commands in the Terminal](#24-running-git-commands-in-the-terminal)
 * [Git Basics](#3-git-basics)
     * [Repositories](#31-repositories)
     * [Tracking Changes](#32-tracking-changes)
@@ -59,25 +59,30 @@ This is where I disagree with some CS people. There's absolutely nothing wrong w
 
 > Side note: I have used GitHub Desktop, but found it kinda clunky so didn't put a lot of time into learning it. If you have issues with it, you're on your own, sorry!
 
-## 1.4 Setup for the Setup
+## 1.4 Visual Studio Code Setup
+If you don't already have VSCode (Visual Studio Code), it isn't absolutely necessary but it will make your life so so much easier with Git from the CLI. Head to the [VSCode Download Page](https://code.visualstudio.com/download) and follow the install process for your machine. 
 
+If you don't like Microsoft's proprietary branding and telemetry practices (very fair), check out the [VSCodium project](https://vscodium.com/), an open source alternative using the same binaries that VSCode is built for (available for Windows, Mac, and Linux). Functionality is the same, so I'll just refer to your editor as VSCode since it's more common. 
 
 # 2. Getting Started With GitHub
 
 To start using GitHub, there are a couple things we need to setup to actually get things running.
 
-## 2.1 Downloading Git
+## 2.1 Git Command Setup
 
 Go to https://git-scm.com/downloads and download the latest version of Git for your operating system. Then:  
 1. Run the installer
 2. Follow the installation options. A few notes:
     * On the **Choosing the default editor used by Git** screen, you may want to select something (probably VSCode) other than Vim since it's a little hard to use, but we'll cover Vim basics later. 
         * This can also be changed later using the `code.editor` variable in git. 
-    * On the **Adjusting the name of the initial branch in new repoisitories** screen, I chose to Override the default and used the more current `main` for default primary branch name. 
-    * On the **Adjusting your PATH environment** make sure to select the option for "Git from the command line and also from 3rd-party software".
-        * This saves us some steps later. 
+    * On the **Adjusting the name of the initial branch in new repoisitories** screen, I chose to override the default and explicitly set the default primary branch name to the current standard of `main`. 
+    * On the **Adjusting your PATH environment** make sure to select the option for "Git from the command line and also from 3rd-party software". This saves us some steps later. 
     * Keep the default behavior of 'git pull' set to "Fast-forward or merge".
-3. Hit finish.
+3. Hit finish. If you selected an option that doesn't work and don't want to reinstall, see section 2.1.2 
+
+### 2.1.1 Troubleshooting: Adding Git to PATH
+
+[don't forget to talk about path to git bin to vscode preferences]: #
 
 ## 2.2 Authentication
 
@@ -117,9 +122,7 @@ To just get things up and running, we'll use the SSH key we just generated for c
 
 ## 2.4 Running Git Commands in the Terminal
 
-### 2.4.1 Adding Git to PATH
-
-### 2.4.2 User Credentials
+### 2.4.1 User Credentials
 ```powershell
 git config --global user.email "you@example.com"
 ```
@@ -127,11 +130,6 @@ git config --global user.email "you@example.com"
 ````powershell
 git config --global user.name "Your Name" 
 ````
-
-## 2.5 Visual Studio Code Setup
-
-[don't forget to talk about path to git bin to vscode preferences]: #
-
 
 # 3. Git Basics
 
