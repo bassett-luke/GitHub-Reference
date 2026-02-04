@@ -1,37 +1,18 @@
 # GitHub-Reference
-An entry level reference for setting up and learning how to use GitHub for software development. Also contains more detail than you'll probably ever want or need. 
+An entry level reference for setting up and learning how to use GitHub for software development. Contains more detail than you'll probably ever want or need. 
 
 <!-- TODO: remove this when done with repo content--->
 **Note: this repository is still a work in progress, large sections are currently incomplete, but most of the information will still be useful. I'm also still working on editing stuff down and moving sections around.**
 
 # Table of Contents
-
-* [1. Introduction](#1-introduction)
-    * [1.1. So What is GitHub?](#11-so-what-is-github)
-    * [1.2. What is Git?](#12-what-is-git)
-    * [1.3. Why Not Just Use GitHub Desktop?](#13-why-not-just-use-github-desktop)
-    * [1.4. Visual Studio Code Setup](#14-visual-studio-code-setup)
-* [2. Getting Started With GitHub](#2-getting-started-with-github)
-    * [Downloading Git](#21-downloading-git)
-    * [Authentication (SSH & HTTPS)](#22-authentication)
-    * [Signing Keys and Signing Commits](#23-signing-keys-and-signing-commits)
-    * [Adding Git to PATH](#241-adding-git-to-path)
-    * [Running Git Commands in the Terminal](#24-running-git-commands-in-the-terminal)
-* [Git Basics](#3-git-basics)
-    * [Repositories](#31-repositories)
-    * [Tracking Changes](#32-tracking-changes)
-    * [Commits](#33-commits)
-    * [Pushing Changes](#34-pushing-changes)
-    * [Pulling Changes](#35-pulling-changes)
-* [4. Branches](#4-branches)
-    * [Switching Branches](#41-switching-branches)
-    * [Creating a New Branch](#42-creating-a-new-branch)
-    * [Committing a New Branch to Remote](#43-committing-a-new-branch-to-remote)
-    * [Deleting a Branch](#44-deleting-a-branch)
-    * [Merging Branches](#45-merging-branches)
-    * [Merge Conflicts](#46-merge-conflicts-yay)
-* [5. Git Workflow](#5-git-workflow)
-* [6. Additional References]()
+|Section Title|Subsections|
+|:---|:---|
+|[1. Introduction](#1-introduction)<br><br><br><br>|[1.1: So What is GitHub?](#11-so-what-is-github)<br>[1.2: What is Git?](#12-what-is-git)<br>[1.3: Why Not Just Use GitHub Desktop?](#13-why-not-just-use-github-desktop)<br>[1.4: Visual Studio Code Setup](#14-visual-studio-code-setup)|
+|[2. Getting Started With GitHub](#2-getting-started-with-github)<br><br><br><br>|[2.1: Downloading Git](#21-downloading-git)<br>[2.2: Authentication (SSH & HTTPS)](#22-authentication)<br>[2.3: Signing Keys and Signing Commits](#23-signing-keys-and-signing-commits)<br>[2.4: Git Commands in the Terminal](#24-git-commands-in-the-terminal)|
+|[3. Git Basics](#3-git-basics)<br><br><br><br><br>|[3.1: Repositories](#31-repositories)<br>[3.2: Tracking Changes](#32-tracking-changes)<br>[3.3: Commits](#33-commits)<br>[3.4: Pushing Changes](#34-pushing-changes)<br>[3.5: Pulling Changes](#35-pulling-changes)|
+|[4. Branches](#4-branches)<br><br><br><br><br><br>|[4.1: Switching Branches](#41-switching-branches)<br>[4.2: Creating a New Branch](#42-creating-a-new-branch)<br>[4.3: Committing a New Branch to Remote](#43-committing-a-new-branch-to-remote)<br>[4.4: Deleting a Branch](#44-deleting-a-branch)<br>[4.5: Merging Branches](#45-merging-branches)<br>[4.6: Merge Conflicts](#46-merge-conflicts-yay)|
+|[5. Git Workflow](#5-git-workflow)||
+|[6. Additional Resources](#6-addtional-resources)||
 
 
 # 1. Introduction
@@ -48,6 +29,13 @@ GitHub (and other sites like it) is first and foremost an online service for sto
 Git is the open source  "version control" services like GitHub, GitLab, and BitBucket use. It's a collection of commands and processes used to track and log changes across multiple files, which it does via a bunch of information stored in a `.git` folder on your computer. Git stores the entire project history locally, so you don't need an internet connection to work on the project or look at code history.
 
 Git works on any file type, but it's primarily used for source code. It works best with plain text files (like code, `.md`, and `.txt` files) because it can track changes line-by-line. It doesn't work as well with binary files (like images, videos, and compiled code) because it can't track changes within those files. Please don't use it with PowerPoint. We'll cover `.gitignore`'s in a [later section](#321-gitignores). 
+
+### 1.2.1 Git Terminology
+Here is a list of terms 
+|Term|Definition|Usage|
+|---|---|---|
+|Repository|
+|Commit| | |
 
 ## 1.3 Why Not Just Use GitHub Desktop?
 
@@ -86,7 +74,9 @@ Go to https://git-scm.com/downloads and download the latest version of Git for y
 
 ## 2.2 Authentication
 
-### 2.2.1 Method 2: SSH Keys
+### 2.2.1 Method 1: HTTPS
+
+### 2.2.2 Method 2: SSH Keys
 Secure Shell (SSH) keys are a way to identify trusted computers without involving passwords. They are a pair (1 public and 1 private) of crytographic keys that can be used to authenticate a secure connection between your computer and GitHub.
 
 To set up your SSH keys: 
@@ -101,10 +91,10 @@ To set up your SSH keys:
 3. Go to [https://github.com/settings/keys](https://github.com/settings/keys) 
 4. Click the green `New SSH key` button. Title it whatever you'd like, and make sure "Authentication Key" is selected from the dropdown. Paste the SSH public key you copied and click `Add SSH Key`.
 5. Repeat step 4. with the same key but select "Signing Key" from the dropdown instead.
-6. Run `ssh git@github.com` and enter yes when prompted to verify the connection with github workds.
+6. Run `ssh git@github.com` and enter yes when prompted to verify the connection with github works.
 
 ## 2.3 Signing Keys and Signing Commits
-We'll cover what commits are later in Section [3.2](#22-commits), but for now, know that signing commits allows GitHub to verify that it was actually you who did the action. The image below shows what a verified commit looks like on GitHub, which you can see by going to the Commit History right under the green `<> Code ▾` button on the main repository page. 
+We'll cover what commits are later in Section [3.3](#33-commits), but for now, know that signing commits allows GitHub to verify that it was actually you who did the action. The image below shows what a verified commit looks like on GitHub, which you can see by going to the Commit History right under the green `<> Code ▾` button on the main repository page. 
 
 <div style="text-align: center;">
 
@@ -119,8 +109,7 @@ To just get things up and running, we'll use the SSH key we just generated for c
 4. Run `git config --global commit.gpgsign true`
 
 
-
-## 2.4 Running Git Commands in the Terminal
+## 2.4 Git Commands in the Terminal
 
 ### 2.4.1 User Credentials
 ```powershell
@@ -198,3 +187,5 @@ You cannot delete the branch you are currently on.
 ## 5.1 Pull Requests
 
 ## 5.2 Automation
+
+# 6. Addtional Resources
