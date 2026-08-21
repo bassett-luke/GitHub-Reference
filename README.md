@@ -89,7 +89,7 @@ To set up your SSH keys:
 2. Either open the `.pub` file you just created or run `cat /path/to/.ssh/id_ed25519.pub` (or whatever you named your ssh key) so you can copy your public key.
 3. Go to [https://github.com/settings/keys](https://github.com/settings/keys) 
 4. Click the green `New SSH key` button. Title it something that makes sense to you, and make sure "Authentication Key" is selected from the dropdown. Paste the SSH public key you copied and click `Add SSH Key`.
-5. Repeat step 4. with the same key but select "Signing Key" from the dropdown instead.
+5. If you care about verified commits, repeat step 4. with the same key but select "Signing Key" from the dropdown instead.
 6. Run `ssh git@github.com` and enter yes when prompted to verify the connection with github works.
 
 ## 2.3 Signing Keys and Signing Commits
@@ -104,36 +104,37 @@ TODO: talk about vigilant mode
 
 To just get things up and running, we'll use the SSH key we just generated for commit signing. You can also use a GPG key instead, but it requires an additional download and some different steps. More information on GPG keys can be found [here](https://docs.github.com/en/authentication/managing-commit-signature-verification/signing-commits).
 
-1. The first step is what we did in step 5 of section 2.2.1. 
 
-2. Run `git config --global gpg.format ssh`
+1. Run the following:
+    * Note: your path will look like `~/.ssh/id_ed25519.pub` if you followed the earlier steps. 
 
-3. Run `git config --global user.signingkey /path/to/.ssh/key.pub`
-    * your path will usually look like `~/.ssh/id_ed25519.pub` unless you changed the name or used a different key generation protocol. 
+```shell
+git config --global gpg.format ssh
+git config --global user.signingkey /path/to/.ssh/key.pub`
+git config --global commit.gpgsign true`
+```
 
-4. Run `git config --global commit.gpgsign true`
+Then, to add the signing to your github.com account (you can skip these steps if already did Step 5 of [Sec. 2.2.2](#222-method-2-ssh-keys)):
 
-Then, on GitHub:
+2. Go to **Settings > SSH and GPG keys > New SSH Key** and set your type to 'Signing Key'.
 
-5. Go to **Settings > SSH and GPG keys > New SSH Key** and set your type to 'Signing Key'.
+3. Name the key something that will make sense to you (I did the same name as the SSH key we generated earlier, just with '_signing' appended).
 
-6. Name the key something that will make sense to you (I did the same name as the SSH key we generated earlier, just with '_signing' appended).
-
-7. Paste in your public SSH key contents and hit the green `Add SSH Key` button.   
+4. Paste in your public SSH key contents and hit the green `Add SSH Key` button.   
 
     * Reminder: this can be printed to terminal with `cat ~/.ssh/id_ed25519.pub` (or whatever your path/file name was).
 
-8. After you make a commit, you can 
+After you make a commit, you can check whether it shows as verified on GitHub.
 
 
 ## 2.4 Git Commands in the Terminal
 
 ### 2.4.1 User Credentials
-```powershell
+```shell
 git config --global user.email "you@example.com"
 ```
 
-````powershell
+````shell
 git config --global user.name "Your Name" 
 ````
 
@@ -244,7 +245,9 @@ You cannot delete the branch you are currently on, so run `git checkout` to swit
 
 When someone deletes a branch on remote (likely via a pull request, covered in [Section 5.1](#51-pull-requests)), your local machine holds onto "dead" pointers. So, you will need to run 
 
-```git fetch --prune```
+```shell
+git fetch --prune
+```
 
 to remove stale branches on local machine that no longer exist on remote. You can also configure this to automatically happen on every git pull/fetch so you never have to remember with `git config --global fetch.prune true` (recommended).
 
