@@ -173,12 +173,14 @@ Branches are one of the most useful features of Git. They are what allows multip
 
 Everthing starts on the `main` branch (also called the `master` or `default` branch in some repositories). The `main` branch should always contain the most up-to-date and stable (i.e. working) version of the code.
 
+To oversimplify branches, the idea is that you can create a new branch, mess with the code however you like, reach a finished state that works, test it via compiling or uploading, and then "merge" your change back into main. 
+
 <div style="text-align: center;">
 
 ![pic:branches](pictures/branches.png)
 </div>
 
-However, since each branch has its own history, you can run into issues when someone else makes changes to either the main branch or code you were also working on. 
+However, since each branch has its own history, you can run into issues when someone else makes changes to either the main branch or code you were also working on. Additionally, people using the active main branch expect things that work in past versions of the software to continue working, a concept called [backwards compatibility](https://www.geeksforgeeks.org/software-engineering/backwards-compatibility-in-a-software-system-with-systematic-reference-to-java/).
 
 ## 4.1 Switching Branches
 To see all current branches, run `git branch`. It will show you all the branches in the repository (that you have pulled from remote). It will show your current branch with an asterisk (*) next to it. 
@@ -206,6 +208,21 @@ If you want to rename your branch, you can either
 1. From any branch, run `git branch -m old-branch-name new-branch-name`, or
 2. Switch to the branch that you want to rename and run `git branch -m new-branch-name`
 
+Because of the way git works, you have essentially created a new branch on your local, so you still need to push the changes to remote. Just like with a brand new branch, you'll run 
+```shell
+git push -u new-branch-name
+```
+
+But then you also need to delete the old branch with:
+```shell
+git push origin --delete old-branch-name
+```
+
+And then your team will need to run the following to clean up the dead references on their end:
+```shell
+git fetch --prune
+```
+
 ## 4.5 Merging Branches
 
 ### 4.5.1 Types of Merges
@@ -217,7 +234,9 @@ If remaining development remains to be done, but the branch is in a working stat
 
 (safer option)
 
-```git branch -d branch-name```
+```shell
+git branch -d branch-name
+```
 
 You may have to use `git branch -D branch-name` (force delete) to actually get rid of the branch on local.
 
