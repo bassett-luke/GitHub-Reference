@@ -1,7 +1,7 @@
 # GitHub-Reference
 An entry level reference for setting up and learning how to use GitHub for software development. Contains more detail than you'll probably ever want or need. 
 
-<!-- TODO: remove this when done with repo content--->
+<!-- TODO: remove this when done with repo content-->
 **Note: this repository is still a work in progress, large sections are currently incomplete, but most of the information will still be useful. I'm also still working on editing stuff down and moving sections around.**
 
 # Table of Contents
@@ -9,9 +9,8 @@ An entry level reference for setting up and learning how to use GitHub for softw
 |:---|:---|
 |[1. Introduction](#1-introduction)<br><br><br><br>|[1.1: So What is GitHub?](#11-so-what-is-github)<br>[1.2: What is Git?](#12-what-is-git)<br>[1.3: Why Not Just Use GitHub Desktop?](#13-why-not-just-use-github-desktop)<br>[1.4: Visual Studio Code Setup](#14-visual-studio-code-setup)|
 |[2. Getting Started With GitHub](#2-getting-started-with-github)<br><br><br><br>|[2.1: Downloading Git](#21-downloading-git)<br>[2.2: Authentication (SSH & HTTPS)](#22-authentication)<br>[2.3: Signing Keys and Signing Commits](#23-signing-keys-and-signing-commits)<br>[2.4: Git Commands in the Terminal](#24-git-commands-in-the-terminal)|
-|[3. Git Basics](#3-git-basics)<br><br><br><br><br>|[3.1: Repositories](#31-repositories)<br>[3.2: Tracking Changes](#32-tracking-changes)<br>[3.3: Commits](#33-commits)<br>[3.4: Pushing Changes](#34-pushing-changes)<br>[3.5: Pulling Changes](#35-pulling-changes)|
-|[4. Branches](#4-branches)<br><br><br><br><br><br>|[4.1: Switching Branches](#41-switching-branches)<br>[4.2: Creating a New Branch](#42-creating-a-new-branch)<br>[4.3: Committing a New Branch to Remote](#43-committing-a-new-branch-to-remote)<br>[4.4: Deleting a Branch](#44-deleting-a-branch)<br>[4.5: Merging Branches](#45-merging-branches)<br>[4.6: Merge Conflicts](#46-merge-conflicts-yay)|
-|[5. Git Workflow](#5-git-workflow)||
+|[3. Git Basics](#3-git-basics)<br><br><br><br><br><br>|[3.1: Repositories](#31-repositories)<br>[3.2: Tracking Changes](#32-tracking-changes)<br>[3.3: Commits](#33-commits)<br>[3.4: Pushing Changes](#34-pushing-changes)<br>[3.5: Pulling Changes](#35-pulling-changes)<br>[3.6: Amending Commits](#36-amending-commits)|
+|[4. Branches](#4-branches)<br><br><br><br><br><br><br>|[4.1: Switching Branches](#41-switching-branches)<br>[4.2: Creating a New Branch](#42-creating-a-new-branch)<br>[4.3: Committing a New Branch to Remote](#43-committing-a-new-branch-to-remote)<br>[4.4: Renaming a Branch](#44-renaming-a-branch)<br>[4.5: Pruning/Deleting a Branch](#45-pruningdeleting-a-branch)<br>[4.6: Merging Branches](#46-merging-branches)<br>[4.7: Merge Conflicts](#47-merge-conflicts-yay)|
 |[6. Additional Resources](#6-addtional-resources)||
 
 
@@ -89,7 +88,7 @@ To set up your SSH keys:
         * Read more about best practices [here](https://www.brandonchecketts.com/archives/ssh-ed25519-key-best-practices-for-2025) and key generation [here](https://www.ssh.com/academy/ssh/keygen).
 2. Either open the `.pub` file you just created or run `cat /path/to/.ssh/id_ed25519.pub` (or whatever you named your ssh key) so you can copy your public key.
 3. Go to [https://github.com/settings/keys](https://github.com/settings/keys) 
-4. Click the green `New SSH key` button. Title it whatever you'd like, and make sure "Authentication Key" is selected from the dropdown. Paste the SSH public key you copied and click `Add SSH Key`.
+4. Click the green `New SSH key` button. Title it something that makes sense to you, and make sure "Authentication Key" is selected from the dropdown. Paste the SSH public key you copied and click `Add SSH Key`.
 5. Repeat step 4. with the same key but select "Signing Key" from the dropdown instead.
 6. Run `ssh git@github.com` and enter yes when prompted to verify the connection with github works.
 
@@ -101,12 +100,30 @@ We'll cover what commits are later in Section [3.3](#33-commits), but for now, k
 ![pic:verified-commit](pictures/verified_commit.png)
 </div>
 
+TODO: talk about vigilant mode
+
 To just get things up and running, we'll use the SSH key we just generated for commit signing. You can also use a GPG key instead, but it requires an additional download and some different steps. More information on GPG keys can be found [here](https://docs.github.com/en/authentication/managing-commit-signature-verification/signing-commits).
 
 1. The first step is what we did in step 5 of section 2.2.1. 
+
 2. Run `git config --global gpg.format ssh`
+
 3. Run `git config --global user.signingkey /path/to/.ssh/key.pub`
+    * your path will usually look like `~/.ssh/id_ed25519.pub` unless you changed the name or used a different key generation protocol. 
+
 4. Run `git config --global commit.gpgsign true`
+
+Then, on GitHub:
+
+5. Go to **Settings > SSH and GPG keys > New SSH Key** and set your type to 'Signing Key'.
+
+6. Name the key something that will make sense to you (I did the same name as the SSH key we generated earlier, just with '_signing' appended).
+
+7. Paste in your public SSH key contents and hit the green `Add SSH Key` button.   
+
+    * Reminder: this can be printed to terminal with `cat ~/.ssh/id_ed25519.pub` (or whatever your path/file name was).
+
+8. After you make a commit, you can 
 
 
 ## 2.4 Git Commands in the Terminal
@@ -139,6 +156,17 @@ The included `.gitignore` file in this repository is a good starting point for C
 
 ## 3.5 Pulling Changes
 
+## 3.6 Amending Commits
+We haven't covered branches yet (next section!), but avoid amending commits on the main branch of a repository, and if others are collaborating on your branch, 
+
+If you ever make a commit and later want to change the commit message, you can run: `git commit --amend -m "New message"`
+
+If you want to add files or additional changes without changing the message, you can run: `git add path/to/file` and then `git commit --amend --no-edit`
+
+If you have already pushed your changes to remote, run: `git push --force-with-lease`. 
+
+* The standard command is `git push --force`, which can overwrite others' work, so **USE WITH CAUTION**. 
+
 # 4. Branches
 
 Branches are one of the most useful features of Git. They are what allows multiple people to work on the same codebase without interfering with each other's work. Each branch has its own history of changes, which can all be merged when development is complete. 
@@ -155,34 +183,76 @@ However, since each branch has its own history, you can run into issues when som
 ## 4.1 Switching Branches
 To see all current branches, run `git branch`. It will show you all the branches in the repository (that you have pulled from remote). It will show your current branch with an asterisk (*) next to it. 
 
-You can switch between branches with `git checkout <branch-name>`. If you have any changes to the current branch that you don't want to commit yet, you can run `git stash` to save the changes, just remember to run `git stash pop` to get the changes back before you start editing the current branch again. 
+You can switch between branches with `git checkout branch-name`. If you have any changes to the current branch that you don't want to commit yet, you can run `git stash` to save the changes, just remember to run `git stash pop` to get the changes back before you start editing the current branch again. 
 
 ## 4.2 Creating a New Branch 
-To create a new branch without switching to it, run `git checkout <name-of-your-branch>`. To create and switch to your new branch, run `git checkout -b <name-of-your-branch>`. 
+To create a new branch without switching to it, run `git checkout name-of-your-branch` and then you can switch to it. To create AND switch to your new branch in one action, run `git checkout -b name-of-your-branch`. 
 
-If you accidentally created a branch, refer to section
+If you change your mind on what you named the branch, refer to [Section 4.4](#44-renaming-a-branch).
+
+If you accidentally created the branch and want to delete it altogether, refer to [Section 4.6](#46-pruningdeleting-a-branch).
 
 ## 4.3 Committing a New Branch to Remote
+Once you create your new branch, it only exists on your local device, not the remote repository. If you try to push a commit to remote, you will get a "fatal: The current branch temp has no upstream branch" message.
 
-git push -u <new-branch-name>
-* -u is short for --set-upstream
+Once you've made at least one commit (so git has something to push), you'll want to run: 
+```shell
+git push -u new-branch-name
+```
+* Note: `-u` is short for `--set-upstream`
 
-## 4.4 Deleting a Branch
-You cannot delete the branch you are currently on. 
-
-`git branch -d <branch-name>`
-
-
-`git branch -D <branch-name>`
-
+## 4.4 Renaming a Branch
+If you want to rename your branch, you can either
+1. From any branch, run `git branch -m old-branch-name new-branch-name`, or
+2. Switch to the branch that you want to rename and run `git branch -m new-branch-name`
 
 ## 4.5 Merging Branches
 
 ### 4.5.1 Types of Merges
 
-## 4.6 Merge Conflicts (Yay!)
+## 4.6 Pruning/Deleting a Branch
+Once you finish development on a branch and merge the changes to another branch or main, best practice is to delete (or prune) the branch. This cleans up the git history on remote and makes merge conflicts less likely in the future (we'll cover this next, they're *super* fun to deal with). 
+
+If remaining development remains to be done, but the branch is in a working state, it's fine to leave it. If you ever need to come back and make changes to the code for a pruned branch, you can always recreate a new one!
+
+(safer option)
+
+```git branch -d branch-name```
+
+You may have to use `git branch -D branch-name` (force delete) to actually get rid of the branch on local.
+
+You cannot delete the branch you are currently on, so run `git checkout` to switch back to main or some other branch. 
+
+When someone deletes a branch on remote (likely via a pull request, covered in [Section 5.1](#51-pull-requests)), your local machine holds onto "dead" pointers. So, you will need to run 
+
+```git fetch --prune```
+
+to remove stale branches on local machine that no longer exist on remote. You can also configure this to automatically happen on every git pull/fetch so you never have to remember with `git config --global fetch.prune true` (recommended).
+
+## 4.7 Merge Conflicts (Yay!)
+
+
+<!--## 4.8 Bad Practice That is Sometimes Useful
+Note to self: unsure whether to add this
+
+USE WITH CAUTION, THIS CAN SERIOUSLY MESS UP GIT REPO'S. You have been warned.
+
+If someone (or you) did a force push to rewrite the remote history,
+```bash
+git push -f
+```
+you'll get a message like "your branch has diverged". If you haven't made any meaningful updates and know their code is correct, you can run the following commands to discard your changes and get rid of the now stale history. 
+```bash
+git fetch origin
+git reset --hard origin/branch
+```
+-->
 
 # 5. Git Workflow
+
+```shell
+git update-index --skip-worktree path/to/file
+```
 
 ## 5.1 Pull Requests
 
