@@ -11,11 +11,14 @@ An entry level reference for setting up and learning how to use GitHub for softw
 |[2. Getting Started With GitHub](#2-getting-started-with-github)<br><br><br><br>|[2.1: Downloading Git](#21-downloading-git)<br>[2.2: Authentication (SSH & HTTPS)](#22-authentication)<br>[2.3: Signing Keys and Signing Commits](#23-signing-keys-and-signing-commits)<br>[2.4: Git Commands in the Terminal](#24-git-commands-in-the-terminal)|
 |[3. Git Basics](#3-git-basics)<br><br><br><br><br><br>|[3.1: Repositories](#31-repositories)<br>[3.2: Tracking Changes](#32-tracking-changes)<br>[3.3: Commits](#33-commits)<br>[3.4: Pushing Changes](#34-pushing-changes)<br>[3.5: Pulling Changes](#35-pulling-changes)<br>[3.6: Amending Commits](#36-amending-commits)|
 |[4. Branches](#4-branches)<br><br><br><br><br><br><br>|[4.1: Switching Branches](#41-switching-branches)<br>[4.2: Creating a New Branch](#42-creating-a-new-branch)<br>[4.3: Committing a New Branch to Remote](#43-committing-a-new-branch-to-remote)<br>[4.4: Renaming a Branch](#44-renaming-a-branch)<br>[4.5: Pruning/Deleting a Branch](#45-pruningdeleting-a-branch)<br>[4.6: Merging Branches](#46-merging-branches)<br>[4.7: Merge Conflicts](#47-merge-conflicts-yay)|
+|[5. Git Workflow](#5-git-workflow)<br><br>|[5.1: Pull Requests (TODO)](#51-pull-requests)<br>[5.2: Automation (TODO)](#52-automation)|
 |[6. Additional Resources](#6-addtional-resources)||
 
 
 # 1. Introduction
-Hello and welcome to the GitHub Reference! I made this document as one easy place to get started working with GitHub for those without experience (I promise it will be *relatively* fast). I'll also provide resources at the end if you want to learn more. 
+Hello and welcome to the GitHub Reference! I made this document as one easy place to get started working with GitHub for those without experience (I promise it will be *somewhat* fast). I'll also provide resources at the end if you want to learn more. 
+
+There is a lot of depth you can go into with Git, so this document is unfortunately very long. At some point I plan to make a quickstart and a command cheatsheet, but for now, [https://git-scm.com/cheat-sheet](https://git-scm.com/cheat-sheet) is a great resource, and it covers certain things that I don't, plus it's the official one.
 
 Just a disclaimer, I'm not an expert (I'm not a CS major, limited industry experience), so if something is confusing or flat out wrong (hopefully not), please feel free to reach out to me and let me know, and I'll do my best to fix it. 
 
@@ -30,7 +33,8 @@ Git is the open source  "version control" services like GitHub, GitLab, and BitB
 Git works on any file type, but it's primarily used for source code. It works best with plain text files (like code, `.md`, and `.txt` files) because it can track changes line-by-line. It doesn't work as well with binary files (like images, videos, and compiled code) because it can't track changes within those files. Please don't use it with PowerPoint. We'll cover `.gitignore`'s in a [later section](#321-gitignores). 
 
 ### 1.2.1 Git Terminology
-Here is a list of terms 
+Here is a list of terms (TODO)
+
 |Term|Definition|Usage|
 |---|---|---|
 |Repository|
@@ -38,18 +42,18 @@ Here is a list of terms
 
 ## 1.3 Why Not Just Use GitHub Desktop?
 
-Downloading GitHub Desktop and simply logging in there would definitely work for most uses, **BUT** hear me out first.
+Downloading GitHub Desktop and simply logging in there would definitely work for a lot of use cases, **BUT** hear me out first.
 
-Doing Git commands from the command line interface (CLI) is often more flexible and precise than the desktop app. Certain actions will be very difficult or even impossible from the GUI, which ends with you opening the terminal anyway. Using the CLI helps you understand the inner workings of Git much better. The commands are also identical across operating system or service, so you can always be productive without needing extra software. However, there is one gigantic caveat to this. 
+Doing Git commands from the command line interface (CLI) is often more flexible and precise than the desktop app; certain actions are very difficult/impossible, so you likely need the terminal anyway. Using the CLI helps you understand the inner workings of Git much better. The commands are also identical across operating system or service, so you can always be productive without any extra software. However, there is one gigantic caveat to this. 
 
-This is where I disagree with some CS people. There's absolutely nothing wrong with using whatever interface you prefer. **If the desktop app GUI speeds up your development, use it!** My personal preference is the CLI, so that's what this guide covers. In the end, we'll be using VSCode; most git commands have buttons there anyway. Most people end up using a combination of the CLI and a GUI. Plus, using the command line makes you feel like a wizard!
+**If the desktop app GUI speeds up your development, use it!** My personal preference is the CLI, so that's what this guide covers. In the end, we'll be using VSCode; most git commands have buttons there anyway. Plus, using the command line makes you feel like a wizard.
 
-> Side note: I have used GitHub Desktop, but found it kinda clunky so didn't put a lot of time into learning it. If you have issues with it, you're on your own, sorry!
+> Side note: I found GitHub Desktop kinda clunky so if you have use it and have issues, your best resource will be Google, sorry!
 
 ## 1.4 Visual Studio Code Setup
 If you don't already have VSCode (Visual Studio Code), it isn't absolutely necessary but it will make your life so so much easier with Git from the CLI. Head to the [VSCode Download Page](https://code.visualstudio.com/download) and follow the install process for your machine. 
 
-If you don't like Microsoft's proprietary branding and telemetry practices (very fair), check out the [VSCodium project](https://vscodium.com/), an open source alternative using the same binaries that VSCode is built for (available for Windows, Mac, and Linux). Functionality is the same, so I'll just refer to your editor as VSCode since it's more common. 
+If you don't like Microsoft's telemetry practices, check out the [VSCodium project](https://vscodium.com/), an open source alternative using the same binaries that VSCode is built for (available for Windows, Mac, and Linux). Functionality is generally the same, but I, like most people, just use VSCode. 
 
 # 2. Getting Started With GitHub
 
@@ -65,15 +69,17 @@ Go to https://git-scm.com/downloads and download the latest version of Git for y
     * On the **Adjusting the name of the initial branch in new repoisitories** screen, I chose to override the default and explicitly set the default primary branch name to the current standard of `main`. 
     * On the **Adjusting your PATH environment** make sure to select the option for "Git from the command line and also from 3rd-party software". This saves us some steps later. 
     * Keep the default behavior of 'git pull' set to "Fast-forward or merge".
-3. Hit finish. If you selected an option that doesn't work and don't want to reinstall, see section 2.1.2 
+3. Hit finish. If you selected an option that doesn't work and don't want to reinstall, see section 2.1.2 (TODO).  
 
 ### 2.1.1 Troubleshooting: Adding Git to PATH
 
 [don't forget to talk about path to git bin to vscode preferences]: #
 
 ## 2.2 Authentication
+You only need this section if you plan on making edits to the codebase of a repository and pushing it to main for everyone else. HTTPS is probably the easiest method, I personally prefer SSH keys for a bit more control. 
 
 ### 2.2.1 Method 1: HTTPS
+Authentication via HTTPS just has you log in to your GitHub account in your browser. This can get inconvenient as you may have to log in again when pulling/pushing changes. 
 
 ### 2.2.2 Method 2: SSH Keys
 Secure Shell (SSH) keys are a way to identify trusted computers without involving passwords. They are a pair (1 public and 1 private) of crytographic keys that can be used to authenticate a secure connection between your computer and GitHub.
@@ -153,9 +159,6 @@ The way Git works means that there are two versions of the repository at any poi
 
 
 ### 3.1.3 Cloning Repositories
-
-
-
 > Note: The rest of Section 3 will use this repository in examples, but you can replace the repository name/address and references if you have another repository you are working with. 
 
 To clone, or make a **Local** copy of, the repository onto your machine:
@@ -164,9 +167,10 @@ To clone, or make a **Local** copy of, the repository onto your machine:
     * Most terminals will let you autocomplete folder/file names if you type the first few letters (enough to make a selection unique) and then `tab`.
     * You can use `cd ..` to move back up a directory if you accidentally go to far down a file path.
     * You can alternatively use the **File > Open Folder** to use a GUI to navigate to the desired folder location. 
-2. Run the following command to a repository you have at least read access to (this repository is public):
+2. Run the following command to a repository you have at least read access to (this repository is public). I prefer cloning via SSH, but if you didn't set up those keys, use HTTPS:
 ```shell
-git clone https://github.com/bassett-luke/GitHub-Reference
+git clone git@github.com:bassett-luke/ASEN4018_Green.git # clone via ssh
+git clone https://github.com/bassett-luke/GitHub-Reference # clone via https
 ```
 
 You now can use the **File > Open Folder** in VSCode to open your workspace to the newly cloned repository. If you click the Source Control icon that looks like
