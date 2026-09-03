@@ -142,27 +142,163 @@ git config --global user.name "Your Name"
 
 ## 3.1 Repositories
 
+Repositories are the way Git groups collections of code for a project. Services like github.com allow you to host that code and its history **remotely**, which means you can implement workflow, test suites, bug tracking, manage releases, etc. for yourself, whatever team you're working on, and the userbase for your project.
+
 ### 3.1.1 Local vs. Remote Repository
+The way Git works means that there are two versions of the repository at any point in time:
+1. **Remote:** This is the version of the repository that lives on github.com. This is the version other people can access. 
+2. **Local:** This is the version of the repository which lives on your own machine/development environment, which only you can access. It contains a copy of the code on Remote, plus any edits, additions, deletions, moves, or any other changes you may have made to the codebase.
+
+### 3.1.2 Repository Permissions
+
+
+### 3.1.3 Cloning Repositories
+
+
+
+> Note: The rest of Section 3 will use this repository in examples, but you can replace the repository name/address and references if you have another repository you are working with. 
+
+To clone, or make a **Local** copy of, the repository onto your machine:
+
+1. Open a Terminal or VSCode and use the `cd` (change directory) command to move to where you'd like your repository to live. 
+    * Most terminals will let you autocomplete folder/file names if you type the first few letters (enough to make a selection unique) and then `tab`.
+    * You can use `cd ..` to move back up a directory if you accidentally go to far down a file path.
+    * You can alternatively use the **File > Open Folder** to use a GUI to navigate to the desired folder location. 
+2. Run the following command to a repository you have at least read access to (this repository is public):
+```shell
+git clone https://github.com/bassett-luke/GitHub-Reference
+```
+
+You now can use the **File > Open Folder** in VSCode to open your workspace to the newly cloned repository. If you click the Source Control icon that looks like
+
+<div style="text-align: center;">
+
+![pic:vscode-sc-icon](pictures/vscode-sc-icon.png)
+</div>
+
+on the left sidebar in VSCode, you should be able to see a "Changes" toggle dropdown (should be empty at the moment).
 
 ## 3.2 Tracking Changes
+Now if you go back to the Files section and open `GitHub-Reference/README.md` and make a change anywhere (doesn't matter what it is since it's on your Local repo), you'll be able to notice a couple things. 
+
+Depending on what change you make to the text (modification, deletion, or addition), git automatically sees a change (sometimes called a diff) in the file. Git will flag that file as having changed, which you can see if you run (from anywhere in the repository):
+
+```shell
+git status
+```
+
+VSCode integrates with Git really nicely, so on the left, between the line numbers and the text editor, you should see a blue checkered bar (modification), a solid green bar (addition), or a red triangle between two lines (deletion) where you made the change. You can click on whichever shows up and a scrollable window pops up, allowing you to see the diff. You can also see the diff by running (from the project root):
+
+```shell
+git diff README.md
+```
+
+This brings up a captive window in read-only Vim, so your terminal is now locked to this output, allowing you to scroll its contents with your arrow keys. If you want to learn more about Vim, check out [Section 6.1](#61-vim), but for now you can just type `q` to exit back to the terminal prompt.
+
+You'll also notice that a blue (for most VSCode themes) circle with a number should show up over the Source Control icon. If you click on that tab, you'll be able to see the change you made to the file, plus a couple extra icons, like shown below. 
+
+<div style="text-align: center;">
+
+![sc-change](pictures/vscode-change-sc-tab.png)
+</div>
+
+If you hover over the options, you can open the file (assuming you didn't delete it), or revert (undo) the change. Reverting it discards **ALL** changes you have made to a file. We'll cover the plus later.
+
+To manually revert the change, you can go ahead and run:
+```shell
+git restore README.md
+```
 
 ### 3.2.1 .gitignore's
 This is something that will generally already be set up for you in a repository, but it's helpful to know what it is. A `.gitignore` file is a simple text file that tells Git which files or directories to ignore changes for in a project. This is a useful way to avoid committing files that aren't necessary to the project, such as build files, temporary files, or sensitive information like passwordsd or API keys. 
 
 The included `.gitignore` file in this repository is a good starting point for C++ projects, and it covers syntax as well. You can find more information about `.gitignore` files and how to create them [here](https://git-scm.com/docs/gitignore).
 
+To show you how they work, create a new `GitHub-Reference/temp.txt`. You can move it into an existing folder or a new folder if you'd like. Save the file and see how the file is now green with a U for "Untracked" in your file explorer, sort of like the tan M before. Now open `GitHub-Reference/.gitignore` and paste `temp.txt` directly onto a new line and save your changes. 
+
+The M should have gone away and the change should no longer show up in the Source Control tab. 
+
+A `.gitignore` in a repository only applies to files that are untracked, so even if you added `README.md` to the `.gitignore`, git would continue to track it. If you want to stop tracking changes to a file in git without removing it from the repository, refer to [Section 5](#5-git-workflow).
+
 ## 3.3 Commits
+Commits are essentially like a snapshot of the state of the repository at one point in time. If you're on the main page of this repository, you can scroll to the top and there should be a button that has a little clock and "N Commits", which you can click on to look at the history of the main branch of this repo. 
+
+A commit can track any change you've made to the content in the repository. If you have a terminal opened in a repository, you can run the following to see all changes:
+
+```shell
+git status
+```
+
+To create a new commit **on your local** machine, you will need to run git add on any file you would like to essentially solidify your changes on. Go ahead and make a change to the `README.md` and see how the file turns tan with an M, like before, and the change shows up on the file text directly. Then run the first command below:
+```shell
+git add README.md
+
+# you can add multiple files at once with
+git add path/to/file1 path/to/file2 ...
+# you can also add folders, allowing you to add all changes within the folder
+git add pictures/
+# finally, you can add all changes with
+git add . # from the project root
+```
+
+You'll notice that if the file had an U in the Explorer tab, it should have changed to an A for "Added". Any changes in the workspace will get dimmer, but are still selectable, but you can no longer revert them. If you go to the Source Control tab, you'll see the same thing. You can run `git status` to see the file is now under the added section instead of modified, deleted, or untracked.
+
+To un-add, or unstage a file from your commit, you can run (this will not undo your changes):
+```shell
+git restore --staged README.md
+```
+
+Now that you know how to do it from the command line, you can go to the Source Control tab and do the same thing with the plus (add) and minus symbols (unstage). 
+
+To finally actually make your commit, run:
+
+```shell
+git commit -m "type a message to describe your changes"
+```
+
+By best practice, a useful commit message is descriptive enough for someone who's relatively familiar with the code to get an idea of what your commit is affecting and maybe what the goal is. It shouldn't be something like "fixed" or "update" ([nobody's perfect](https://github.com/bassett-luke/GitHub-Reference/commit/6e832153eadf2802287bd6021be706ed31e7162f), so not the end of the world if it's a little vague). 
+
+If you need to abort your commit (you forgot a file, aren't ready to commit yet, etc.), you can either [amend your commit](#36-amending-commits) or run the command below. This just undoes the commit command, it will keep your changes staged. 
+```shell
+git reset --soft HEAD~1
+```
+<!--
+`git reset HEAD~1 # removes the commit and unstages changes`
+-->
 
 ## 3.4 Pushing Changes
+At this point, your change still only exists on your local machine. If you go to the Source Control tab and open the Graph toggle at the bottom, you will see a "Outgoing Changes" on top of the commit you just made, and there are different labels for `main` (has a little target looking icon, refers to your local) and `origin/main` (has a cloud icon, refers to remote)
 
 ## 3.5 Pulling Changes
+Up until this point, you have only been working in a vacuum, your changes don't affect anyone else, no one else would be working on the same files as you. 
+
+However, since multiple people can have their own Local Repository (which they can make changes to and then update Remote from), it's possible your Local Repository gets "out of date" with Remote. 
+
+To update your local repository to whatever is on remote, you will (not yet) run:
+```shell
+git pull
+```
+
+This command is actually two commands stapled together for convenience, being:
+```shell
+git fetch # downloads changes from remote to your local machine but **DOESN'T** update your files
+git merge # updates your files, will cover in more detail
+```
+Since Git works by keeping track of changes to files and not the direct contents of the files, you should be able to just Git pull, and as long as your changes don't overwrite someone else's changes, Git will be happy and add your changes on top of the new ones. However, you can run into situations where you hit a merge conflict, which we will cover in a [later section](#47-merge-conflicts-yay).
+
+Pulling changes from Remote gets really important once we start working with branches in [Section 4](#4-branches).
 
 ## 3.6 Amending Commits
-We haven't covered branches yet (next section!), but avoid amending commits on the main branch of a repository, and if others are collaborating on your branch, 
+We haven't covered branches yet (next section), but avoid amending commits on the main branch of a repository. If others are collaborating on your branch, avoid amends once they've been pushed unless absolutely necessary, and let your team know if you are making an amend. 
 
-If you ever make a commit and later want to change the commit message, you can run: `git commit --amend -m "New message"`
+If you ever make a commit and later want to change the commit message, you can run: `git commit --amend -m "new message"`
 
 If you want to add files or additional changes without changing the message, you can run: `git add path/to/file` and then `git commit --amend --no-edit`
+
+If you need to change both or change commit information (allows you to coauthor, or change the commit time if you for some reason need to), run:
+```shell
+git commit --amend
+```
 
 If you have already pushed your changes to remote, run: `git push --force-with-lease`. 
 
@@ -252,6 +388,24 @@ git fetch --prune
 to remove stale branches on local machine that no longer exist on remote. You can also configure this to automatically happen on every git pull/fetch so you never have to remember with `git config --global fetch.prune true` (recommended).
 
 ## 4.7 Merge Conflicts (Yay!)
+What is a merge conflict (TODO)
+
+To help reduce how confusing merge conflicts can be, I will sometime run:
+```shell
+git stash # stores your changes on your current branch
+# do all my git pulls
+git stash pop # add my working changes on top of pulled file
+```
+This can be especially helpful if you know the code you are pulling is correct/working, but you need to make additional edits on that same file. 
+
+Git stash works like a stack data structure, so (TODO)
+```bash
+git stash list # latest is always stash@{0}
+git stash apply stash@{1}
+git stash drop stash@{1}
+```
+
+A good way to avoid merge conflicts is having only one person working on one file per branch at a time. Backwards compatibility in code helps a lot in this. Also, make sure you merge any changes made to main while you are developing into your branch (and more importantly make sure it **works**) before merging your branch back up to main. At the end of the day though, they still probably will happen, so best of luck!
 
 
 <!--## 4.8 Bad Practice That is Sometimes Useful
@@ -271,9 +425,18 @@ git reset --hard origin/branch
 -->
 
 # 5. Git Workflow
-
+If you want to stop tracking changes to a file just on your local computer without affecting the file on remote (e.g. a config file template), run:
 ```shell
 git update-index --skip-worktree path/to/file
+# can be undone with 
+git update-index --no-skip-worktree path/to/file
+```
+
+If a file is already committed to the repository and you want to delete it from remote, but leave it on your local machine (.env files, build files, local logs), run:
+```shell
+git rm --cached path/to/file
+# add the file to the .gitnore if necessary and add that change too
+git commit -m "Stop tracking ignored file"
 ```
 
 ## 5.1 Pull Requests
@@ -281,3 +444,9 @@ git update-index --skip-worktree path/to/file
 ## 5.2 Automation
 
 # 6. Addtional Resources
+
+## 6.1 Vim
+
+If you're on Linux, you already have a fairly comprehensive guide on vim preinstalled with your machine, which you can access by typing `vimtutor` in a terminal. 
+
+However, since most of us are not on Linux, here's a fairly quick guide on Vim basics: [https://www.redhat.com/en/blog/beginners-guide-vim](https://www.redhat.com/en/blog/beginners-guide-vim).
