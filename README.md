@@ -253,21 +253,31 @@ Now that you know how to do it from the command line, you can go to the Source C
 To finally actually make your commit, run:
 
 ```shell
-git commit -m "type a message to describe your changes"
+git commit -m "commit message describing changes"
 ```
 
 By best practice, a useful commit message is descriptive enough for someone who's relatively familiar with the code to get an idea of what your commit is affecting and maybe what the goal is. It shouldn't be something like "fixed" or "update" ([nobody's perfect](https://github.com/bassett-luke/GitHub-Reference/commit/6e832153eadf2802287bd6021be706ed31e7162f), so not the end of the world if it's a little vague). 
+
+You can also do multiple commits at once before worrying about updating Remote, so it's totally fine (and often very helpful) to make a small change and get it working, make a commit to save your work, and then keep working on your next commit.
 
 If you need to abort your commit (you forgot a file, aren't ready to commit yet, etc.), you can either [amend your commit](#36-amending-commits) or run the command below. This just undoes the commit command, it will keep your changes staged. 
 ```shell
 git reset --soft HEAD~1
 ```
-<!--
-`git reset HEAD~1 # removes the commit and unstages changes`
--->
+
+Here are some other good commands to know, but use your best discretion when utilizing:
+```shell
+git reset HEAD~1 # removes the commit and unstages changes
+git reset --hard HEAD~1 # completely deletes the last commit AND those changes, not able to be undone 
+```
 
 ## 3.4 Pushing Changes
-At this point, your change still only exists on your local machine. If you go to the Source Control tab and open the Graph toggle at the bottom, you will see a "Outgoing Changes" on top of the commit you just made, and there are different labels for `main` (has a little target looking icon, refers to your local) and `origin/main` (has a cloud icon, refers to remote)
+At this point, your change still only exists on your local machine. If you go to the Source Control tab and open the Graph toggle at the bottom, you will see a "Outgoing Changes" on top of the commit you just made, and there are different labels for `main` (has a little target looking icon, refers to your local) and `origin/main` (has a cloud icon, refers to remote). 
+
+To update remote off of your changes (unless you somehow have access to the `GitHub-Reference` repository, pushing will return an error), run:
+```shell
+git push # yep its that simple
+```
 
 ## 3.5 Pulling Changes
 Up until this point, you have only been working in a vacuum, your changes don't affect anyone else, no one else would be working on the same files as you. 
@@ -284,7 +294,11 @@ This command is actually two commands stapled together for convenience, being:
 git fetch # downloads changes from remote to your local machine but **DOESN'T** update your files
 git merge # updates your files, will cover in more detail
 ```
-Since Git works by keeping track of changes to files and not the direct contents of the files, you should be able to just Git pull, and as long as your changes don't overwrite someone else's changes, Git will be happy and add your changes on top of the new ones. However, you can run into situations where you hit a merge conflict, which we will cover in a [later section](#47-merge-conflicts-yay).
+Since Git works by keeping track of changes to files and not the direct contents of the files, you should be able to just Git pull, and as long as your changes don't overwrite someone else's changes, Git will be happy and add your changes on top of the new ones. 
+
+However, you can run into situations where you hit a merge conflict, which we will cover in a [later section](#47-merge-conflicts-yay); they can be really not fun to deal with. So if you're in a situation where merge conflicts could happen, be careful. 
+
+You can go ahead and try `git pull` now (it won't do anything on this repository unless I made a change since you cloned it).
 
 Pulling changes from Remote gets really important once we start working with branches in [Section 4](#4-branches).
 
